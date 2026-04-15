@@ -1,0 +1,2516 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZINO — تاريخ وجغرافيا | البكالوريا الجزائرية</title>
+<meta name="description" content="ZINO — منصة تعليمية لحفظ تاريخ وجغرافيا البكالوريا الجزائرية. تواريخ، شخصيات، مصطلحات، تعاريف، واختبارات متنوعة.">
+<meta name="theme-color" content="#1e40af">
+<link rel="manifest" href="manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ZINO">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════
+   ZINO DESIGN SYSTEM
+   Deep navy → Electric blue → Ice white
+   Inspired by Algerian night sky & Mediterranean depth
+═══════════════════════════════════════════════════════ */
+:root {
+  /* Blues */
+  --bg:         #060c1a;
+  --bg2:        #080f22;
+  --surface:    #0d1730;
+  --card:       #111e3a;
+  --card-hover: #162448;
+  --border:     #1e3158;
+  --border2:    #2a4580;
+
+  /* Brand blues */
+  --b100: #dbeafe;
+  --b200: #93c5fd;
+  --b300: #60a5fa;
+  --b400: #3b82f6;
+  --b500: #2563eb;
+  --b600: #1d4ed8;
+  --b700: #1e40af;
+  --b800: #1e3a8a;
+  --b900: #1e2d6b;
+
+  /* Accents */
+  --cyan:    #06b6d4;
+  --cyan2:   #67e8f9;
+  --sky:     #38bdf8;
+  --indigo:  #818cf8;
+  --violet:  #a78bfa;
+
+  /* Subject colors */
+  --hist:    #f59e0b;   /* Amber for History */
+  --hist2:   #fbbf24;
+  --geo:     #10b981;   /* Emerald for Geography */
+  --geo2:    #34d399;
+
+  /* States */
+  --success: #10b981;
+  --danger:  #ef4444;
+  --warn:    #f59e0b;
+
+  /* Text */
+  --text:    #e2e8f8;
+  --text2:   #94a3c8;
+  --text3:   #4a6090;
+
+  /* Sidebar width */
+  --sb: 270px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Tajawal', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Deep starfield bg */
+body::before {
+  content:'';
+  position:fixed; inset:0; z-index:0;
+  background:
+    radial-gradient(ellipse 70% 60% at 15% 20%, #1e40af14 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 85% 80%, #06b6d414 0%, transparent 55%),
+    radial-gradient(ellipse 40% 70% at 50% 50%, #1d4ed808 0%, transparent 70%);
+  pointer-events:none;
+}
+
+/* Subtle grid lines */
+body::after {
+  content:'';
+  position:fixed; inset:0; z-index:0;
+  background-image:
+    linear-gradient(#3b82f607 1px, transparent 1px),
+    linear-gradient(90deg, #3b82f607 1px, transparent 1px);
+  background-size:56px 56px;
+  pointer-events:none;
+}
+
+.rel{position:relative;z-index:1;}
+
+/* ═══ LAYOUT ═══ */
+.shell { display:flex; min-height:100vh; }
+
+/* ═══ SIDEBAR ═══ */
+.sb {
+  width: var(--sb);
+  flex-shrink:0;
+  position:fixed;
+  top:0; right:0; bottom:0;
+  background: rgba(8,15,34,.96);
+  border-left: 1px solid var(--border);
+  backdrop-filter: blur(24px);
+  display:flex;
+  flex-direction:column;
+  z-index:200;
+  transition: transform .3s cubic-bezier(.4,0,.2,1);
+}
+
+/* Logo area */
+.sb-logo {
+  padding:24px 20px 18px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.logo-mark {
+  width:42px; height:42px;
+  border-radius:12px;
+  background: linear-gradient(135deg, var(--b500), var(--cyan));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:900;
+  font-size:1.1rem;
+  letter-spacing:-1px;
+  color:#fff;
+  box-shadow: 0 4px 20px #2563eb44;
+  flex-shrink:0;
+}
+
+.logo-text h1 {
+  font-size:1.3rem;
+  font-weight:900;
+  letter-spacing:2px;
+  background: linear-gradient(135deg, #fff, var(--b300), var(--cyan2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.logo-text p {
+  font-size:.68rem;
+  color:var(--text3);
+  margin-top:1px;
+}
+
+/* Nav */
+.sb-nav {
+  flex:1;
+  overflow-y:auto;
+  padding:12px 10px;
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+
+.sb-nav::-webkit-scrollbar{width:4px;}
+.sb-nav::-webkit-scrollbar-track{background:transparent;}
+.sb-nav::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+
+.nav-group-label {
+  font-size:.65rem;
+  color:var(--text3);
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+  padding:12px 10px 5px;
+  font-weight:600;
+}
+
+.nav-btn {
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:10px 12px;
+  border-radius:11px;
+  border:1px solid transparent;
+  background:none;
+  color:var(--text2);
+  font-family:'Tajawal',sans-serif;
+  font-size:.9rem;
+  font-weight:500;
+  cursor:pointer;
+  width:100%;
+  text-align:right;
+  transition:all .2s;
+  position:relative;
+}
+
+.nav-btn:hover {
+  background:#ffffff08;
+  color:var(--text);
+  border-color:var(--border);
+}
+
+.nav-btn.active {
+  background: linear-gradient(135deg, #2563eb22, #06b6d411);
+  border-color: #2563eb44;
+  color:var(--b300);
+}
+
+.nav-icon {
+  font-size:1.05rem;
+  flex-shrink:0;
+  width:22px;
+  text-align:center;
+}
+
+.nav-lbl { flex:1; }
+
+.nav-count {
+  font-size:.7rem;
+  font-weight:700;
+  background:#ffffff12;
+  border-radius:50px;
+  padding:1px 8px;
+  color:var(--text3);
+  min-width:22px;
+  text-align:center;
+}
+
+.nav-btn.active .nav-count {
+  background:#2563eb33;
+  color:var(--b300);
+}
+
+/* Subject divider */
+.nav-divider {
+  height:1px;
+  background:var(--border);
+  margin:8px 10px;
+}
+
+/* Sidebar footer */
+.sb-foot {
+  border-top:1px solid var(--border);
+  padding:14px 16px;
+}
+
+.sb-stats {
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:8px;
+  margin-bottom:12px;
+}
+
+.sb-stat {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:8px 6px;
+  text-align:center;
+}
+
+.sb-stat .sn {
+  font-size:1.1rem;
+  font-weight:900;
+  color:var(--b300);
+  font-family:'Tajawal',sans-serif;
+  line-height:1;
+}
+
+.sb-stat .sl {
+  font-size:.6rem;
+  color:var(--text3);
+  margin-top:2px;
+}
+
+.subject-toggle {
+  display:flex;
+  gap:6px;
+}
+
+.subj-btn {
+  flex:1;
+  padding:7px 10px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  background:none;
+  font-family:'Tajawal',sans-serif;
+  font-size:.78rem;
+  font-weight:700;
+  cursor:pointer;
+  transition:all .2s;
+  color:var(--text3);
+}
+
+.subj-btn.hist { border-color:#f59e0b44; }
+.subj-btn.geo  { border-color:#10b98144; }
+.subj-btn.hist:hover,.subj-btn.hist.on { background:#f59e0b22; color:var(--hist2); border-color:var(--hist); }
+.subj-btn.geo:hover,.subj-btn.geo.on   { background:#10b98122; color:var(--geo2);  border-color:var(--geo); }
+
+/* Hamburger */
+.hamburger {
+  display:none;
+  position:fixed;
+  top:12px; right:12px;
+  z-index:300;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:9px 14px;
+  cursor:pointer;
+  color:var(--text);
+  font-family:'Tajawal',sans-serif;
+  font-size:.88rem;
+  font-weight:600;
+  gap:8px;
+  align-items:center;
+  box-shadow:0 4px 20px #00000044;
+}
+
+.overlay {
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#000000aa;
+  z-index:190;
+  opacity:0;
+  transition:opacity .3s;
+}
+
+.overlay.on { opacity:1; pointer-events:auto; }
+
+/* ═══ MAIN ═══ */
+.main {
+  flex:1;
+  margin-right:var(--sb);
+  min-height:100vh;
+  padding:32px 30px 80px;
+  max-width:calc(100vw - var(--sb));
+}
+
+/* ═══ PANEL SYSTEM ═══ */
+.panel { display:none; animation:fadeUp .4s ease both; }
+.panel.on { display:block; }
+
+@keyframes fadeUp {
+  from{opacity:0;transform:translateY(18px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* ═══ PAGE HERO ═══ */
+.page-hero {
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:14px;
+  margin-bottom:28px;
+  padding-bottom:22px;
+  border-bottom:1px solid var(--border);
+}
+
+.hero-left h2 {
+  font-family:'Amiri',serif;
+  font-size:1.9rem;
+  font-weight:700;
+  background:linear-gradient(135deg, var(--text) 30%, var(--b300) 70%, var(--cyan2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  line-height:1.3;
+}
+
+.hero-left p {
+  color:var(--text3);
+  font-size:.88rem;
+  margin-top:5px;
+}
+
+.hero-right {
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+/* Subject badge */
+.subj-badge {
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:5px 14px;
+  border-radius:50px;
+  font-size:.75rem;
+  font-weight:700;
+  letter-spacing:.5px;
+}
+
+.subj-badge.hist { background:#f59e0b18; border:1px solid #f59e0b44; color:var(--hist2); }
+.subj-badge.geo  { background:#10b98118; border:1px solid #10b98144; color:var(--geo2); }
+.subj-badge.all  { background:#2563eb18; border:1px solid #2563eb44; color:var(--b300); }
+
+/* ═══ STAT PILLS ROW ═══ */
+.stats-row {
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:22px;
+}
+
+.stat-chip {
+  display:flex;
+  align-items:center;
+  gap:7px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:50px;
+  padding:7px 16px;
+  font-size:.8rem;
+  color:var(--text2);
+}
+
+.stat-chip b {
+  font-weight:800;
+  color:var(--b300);
+  font-family:'Tajawal',sans-serif;
+}
+
+/* ═══ DASHBOARD SPECIFIC ═══ */
+/* KPI Grid */
+.kpi-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
+  gap:14px;
+  margin-bottom:28px;
+}
+
+.kpi {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:20px 18px;
+  cursor:pointer;
+  transition:all .25s;
+  position:relative;
+  overflow:hidden;
+}
+
+.kpi::after {
+  content:'';
+  position:absolute;
+  bottom:0; left:0; right:0;
+  height:2px;
+  opacity:0;
+  transition:opacity .25s;
+}
+
+.kpi:hover { border-color:var(--border2); transform:translateY(-3px); box-shadow:0 8px 30px #00000044; }
+.kpi:hover::after { opacity:1; }
+
+.kpi.b::after  { background:linear-gradient(90deg,var(--b500),var(--cyan)); }
+.kpi.h::after  { background:linear-gradient(90deg,var(--hist),var(--hist2)); }
+.kpi.g::after  { background:linear-gradient(90deg,var(--geo),var(--geo2)); }
+.kpi.v::after  { background:linear-gradient(90deg,var(--violet),var(--indigo)); }
+.kpi.c::after  { background:linear-gradient(90deg,var(--cyan),var(--sky)); }
+
+.kpi-icon { font-size:1.6rem; margin-bottom:10px; }
+
+.kpi-num {
+  font-size:2.2rem;
+  font-weight:900;
+  font-family:'Tajawal',sans-serif;
+  line-height:1;
+  margin-bottom:4px;
+}
+
+.kpi.b  .kpi-num { color:var(--b300); }
+.kpi.h  .kpi-num { color:var(--hist2); }
+.kpi.g  .kpi-num { color:var(--geo2); }
+.kpi.v  .kpi-num { color:var(--violet); }
+.kpi.c  .kpi-num { color:var(--cyan2); }
+
+.kpi-lbl { font-size:.8rem; color:var(--text3); }
+
+/* Dashboard 2-col */
+.dash-two {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  margin-bottom:28px;
+}
+
+@media(max-width:700px){ .dash-two{grid-template-columns:1fr;} }
+
+.dash-box {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:22px;
+}
+
+.dash-box h3 {
+  font-family:'Amiri',serif;
+  font-size:1rem;
+  font-weight:700;
+  color:var(--b200);
+  margin-bottom:16px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+/* Progress bars */
+.prog-item { margin-bottom:13px; }
+.prog-label {
+  display:flex;
+  justify-content:space-between;
+  font-size:.78rem;
+  color:var(--text3);
+  margin-bottom:5px;
+}
+
+.prog-track {
+  height:6px;
+  background:var(--surface);
+  border-radius:50px;
+  overflow:hidden;
+}
+
+.prog-fill {
+  height:100%;
+  border-radius:50px;
+  transition:width .7s cubic-bezier(.4,0,.2,1);
+}
+
+/* Activity feed */
+.act-item {
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:9px 0;
+  border-bottom:1px solid var(--border);
+}
+
+.act-item:last-child { border-bottom:none; }
+.act-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+.act-text { flex:1; font-size:.84rem; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.act-meta { display:flex; flex-direction:column; align-items:flex-start; gap:2px; flex-shrink:0; }
+.act-type { font-size:.65rem; color:var(--text3); }
+.act-time { font-size:.65rem; color:var(--text3); }
+
+/* ═══ FORM BOX ═══ */
+.form-box {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:26px;
+  margin-bottom:22px;
+  position:relative;
+  overflow:hidden;
+}
+
+.form-box::before {
+  content:'';
+  position:absolute;
+  top:-40px; right:-40px;
+  width:180px; height:180px;
+  border-radius:50%;
+  background:radial-gradient(circle, #2563eb12, transparent 70%);
+  pointer-events:none;
+}
+
+.form-title {
+  font-family:'Amiri',serif;
+  font-size:1.1rem;
+  font-weight:700;
+  margin-bottom:18px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+/* Collapsible form */
+.form-toggle {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  cursor:pointer;
+  padding:18px 22px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  margin-bottom:14px;
+  transition:all .2s;
+  font-family:'Tajawal',sans-serif;
+  font-size:.95rem;
+  font-weight:600;
+  color:var(--text2);
+}
+
+.form-toggle:hover { border-color:var(--border2); color:var(--text); }
+.form-toggle.open  { border-color:var(--b500); color:var(--b300); border-radius:14px 14px 0 0; }
+
+.toggle-arrow { transition:transform .3s; font-size:.8rem; }
+.form-toggle.open .toggle-arrow { transform:rotate(180deg); }
+
+.form-body {
+  background:var(--card);
+  border:1px solid var(--b500);
+  border-top:none;
+  border-radius:0 0 14px 14px;
+  padding:22px;
+  display:none;
+  animation:fadeUp .3s ease;
+}
+
+.form-body.open { display:block; }
+
+/* Grid */
+.fg {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+}
+
+@media(max-width:560px){ .fg{grid-template-columns:1fr;} }
+.full { grid-column:1/-1; }
+
+/* Field */
+.fld { display:flex; flex-direction:column; gap:6px; }
+
+.fld label {
+  font-size:.77rem;
+  color:var(--text3);
+  font-weight:600;
+  letter-spacing:.3px;
+}
+
+.fld input,
+.fld select,
+.fld textarea {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:10px 13px;
+  color:var(--text);
+  font-family:'Tajawal',sans-serif;
+  font-size:.9rem;
+  outline:none;
+  transition:border-color .2s, box-shadow .2s;
+  width:100%;
+}
+
+.fld input:focus,
+.fld select:focus,
+.fld textarea:focus {
+  border-color:var(--b400);
+  box-shadow:0 0 0 3px #3b82f618;
+}
+
+.fld select option { background:var(--surface); }
+.fld textarea { resize:vertical; min-height:80px; line-height:1.7; }
+
+/* Save btn */
+.btn-save {
+  grid-column:1/-1;
+  padding:12px;
+  border:none;
+  border-radius:11px;
+  font-family:'Tajawal',sans-serif;
+  font-size:.95rem;
+  font-weight:700;
+  cursor:pointer;
+  width:100%;
+  color:#fff;
+  transition:transform .2s, box-shadow .2s;
+  margin-top:4px;
+}
+
+.btn-save:hover { transform:translateY(-2px); }
+.btn-save:active { transform:translateY(0); }
+
+.btn-save.blue   { background:linear-gradient(135deg,var(--b500),var(--b700)); box-shadow:0 4px 18px #2563eb33; }
+.btn-save.amber  { background:linear-gradient(135deg,#d97706,#92400e); box-shadow:0 4px 18px #d9770633; }
+.btn-save.emerald{ background:linear-gradient(135deg,#059669,#065f46); box-shadow:0 4px 18px #05966933; }
+.btn-save.violet { background:linear-gradient(135deg,#7c3aed,#4c1d95); box-shadow:0 4px 18px #7c3aed33; }
+.btn-save.cyan   { background:linear-gradient(135deg,#0891b2,#164e63); box-shadow:0 4px 18px #0891b233; }
+
+/* ═══ TOOLBAR ═══ */
+.toolbar {
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+  align-items:center;
+}
+
+.search-box {
+  flex:1;
+  min-width:180px;
+  position:relative;
+}
+
+.search-box input {
+  width:100%;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:10px 38px 10px 14px;
+  color:var(--text);
+  font-family:'Tajawal',sans-serif;
+  font-size:.9rem;
+  outline:none;
+  transition:border-color .2s;
+}
+
+.search-box input:focus { border-color:var(--b400); }
+.search-icon { position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--text3); font-size:.9rem; pointer-events:none; }
+
+.fsel {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:10px 13px;
+  color:var(--text);
+  font-family:'Tajawal',sans-serif;
+  font-size:.85rem;
+  outline:none;
+  cursor:pointer;
+  transition:border-color .2s;
+}
+
+.fsel:focus { border-color:var(--b400); }
+.fsel option { background:var(--surface); }
+
+/* Count label */
+.list-header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:14px;
+  padding-bottom:12px;
+  border-bottom:1px solid var(--border);
+}
+
+.list-header h3 {
+  font-size:.85rem;
+  color:var(--text3);
+  font-weight:500;
+}
+
+.list-header .cnt {
+  font-size:.78rem;
+  background:var(--b800);
+  border-radius:50px;
+  padding:3px 12px;
+  color:var(--b200);
+  font-weight:700;
+}
+
+/* ═══ CARDS ═══ */
+.cards-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:13px;
+  margin-bottom:40px;
+}
+
+/* Base item card */
+.ic {
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:18px;
+  position:relative;
+  overflow:hidden;
+  transition:transform .22s, border-color .22s, box-shadow .22s;
+  animation:fadeUp .38s ease both;
+}
+
+.ic:hover { transform:translateY(-3px); box-shadow:0 8px 28px #00000044; }
+
+/* Accent strip on left (since RTL is right) */
+.ic::before {
+  content:'';
+  position:absolute;
+  top:14px; bottom:14px; right:0;
+  width:3px;
+  border-radius:0 3px 3px 0;
+}
+
+/* Date — blue */
+.ic-date { background:var(--card); }
+.ic-date:hover { border-color:#2563eb44; }
+.ic-date::before { background:linear-gradient(180deg,var(--b500),var(--cyan)); }
+
+/* Person — amber */
+.ic-person { background:var(--card); }
+.ic-person:hover { border-color:#f59e0b44; }
+.ic-person::before { background:linear-gradient(180deg,var(--hist),var(--hist2)); }
+
+/* Term — emerald */
+.ic-term { background:var(--card); }
+.ic-term:hover { border-color:#10b98144; }
+.ic-term::before { background:linear-gradient(180deg,var(--geo),var(--geo2)); }
+
+/* Definition — violet */
+.ic-def { background:var(--card); }
+.ic-def:hover { border-color:#7c3aed44; }
+.ic-def::before { background:linear-gradient(180deg,var(--violet),var(--indigo)); }
+
+/* Card content */
+.ic-head { display:flex; align-items:flex-start; gap:10px; margin-bottom:10px; }
+
+.ic-badge {
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:4px 12px;
+  border-radius:50px;
+  font-size:.78rem;
+  font-weight:700;
+  flex-shrink:0;
+}
+
+.ic-badge.date   { background:#2563eb1a; border:1px solid #2563eb33; color:var(--b300); }
+.ic-badge.person { background:#f59e0b1a; border:1px solid #f59e0b33; color:var(--hist2); }
+.ic-badge.term   { background:#10b9811a; border:1px solid #10b98133; color:var(--geo2); }
+.ic-badge.def    { background:#7c3aed1a; border:1px solid #7c3aed33; color:var(--violet); }
+
+.ic-title {
+  font-family:'Amiri',serif;
+  font-size:1.05rem;
+  font-weight:700;
+  line-height:1.5;
+  color:var(--text);
+  margin-bottom:6px;
+}
+
+.ic-body {
+  font-size:.83rem;
+  color:var(--text2);
+  line-height:1.75;
+  margin-bottom:8px;
+}
+
+.ic-example {
+  font-size:.78rem;
+  color:#6b8ab0;
+  padding:7px 11px;
+  background:var(--surface);
+  border-radius:8px;
+  border-right:2px solid var(--b600);
+  line-height:1.6;
+  font-style:italic;
+  margin-bottom:8px;
+}
+
+/* Tags row */
+.ic-tags { display:flex; gap:6px; flex-wrap:wrap; }
+
+.tag {
+  font-size:.68rem;
+  padding:2px 9px;
+  border-radius:50px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  color:var(--text3);
+}
+
+.tag.subj-hist { border-color:#f59e0b33; color:var(--hist2); }
+.tag.subj-geo  { border-color:#10b98133; color:var(--geo2); }
+.tag.unit-tag  { border-color:#2563eb33; color:var(--b300); }
+.tag.lvl-basic  { border-color:#10b98133; color:var(--geo2); }
+.tag.lvl-mid    { border-color:#f59e0b33; color:var(--hist2); }
+.tag.lvl-adv    { border-color:#7c3aed33; color:var(--violet); }
+.tag.fr-tag     { border-color:#06b6d433; color:var(--cyan2); direction:ltr; }
+
+/* Card footer */
+.ic-foot {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-top:12px;
+  padding-top:11px;
+  border-top:1px solid var(--border);
+  flex-wrap:wrap;
+  gap:7px;
+}
+
+/* Delete btn */
+.btn-del {
+  display:flex;
+  align-items:center;
+  gap:4px;
+  background:none;
+  border:1px solid var(--border);
+  border-radius:7px;
+  color:var(--text3);
+  padding:4px 10px;
+  font-size:.72rem;
+  cursor:pointer;
+  transition:all .2s;
+  font-family:'Tajawal',sans-serif;
+}
+
+.btn-del:hover { border-color:var(--danger); color:var(--danger); background:#ef444411; }
+
+/* Person avatar */
+.p-avatar {
+  width:42px; height:42px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#d97706,#92400e);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.2rem;
+  flex-shrink:0;
+  box-shadow:0 3px 12px #d9770633;
+}
+
+/* ═══ EMPTY STATE ═══ */
+.empty {
+  text-align:center;
+  padding:60px 20px;
+  color:var(--text3);
+  display:none;
+}
+
+.empty .ei { font-size:3rem; opacity:.4; margin-bottom:12px; }
+.empty p { font-size:.9rem; }
+
+/* ═══ SUBJECT TABS ═══ */
+.subj-tabs {
+  display:flex;
+  gap:8px;
+  margin-bottom:20px;
+}
+
+.stab {
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:8px 18px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:none;
+  font-family:'Tajawal',sans-serif;
+  font-size:.88rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:all .2s;
+  color:var(--text3);
+}
+
+.stab:hover { border-color:var(--border2); color:var(--text); }
+.stab.all.on    { background:#2563eb18; border-color:#2563eb44; color:var(--b300); }
+.stab.hist.on   { background:#f59e0b18; border-color:#f59e0b44; color:var(--hist2); }
+.stab.geo.on    { background:#10b98118; border-color:#10b98144; color:var(--geo2); }
+
+/* ════════════════════════════════════════
+   QUIZ ENGINE UI
+════════════════════════════════════════ */
+.quiz-wrap { max-width:780px; margin:0 auto; }
+
+/* Type picker */
+.qtype-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+  gap:10px;
+  margin-bottom:24px;
+}
+
+.qtype-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:16px 12px;
+  cursor:pointer;
+  text-align:center;
+  transition:all .22s;
+  position:relative;
+  overflow:hidden;
+}
+
+.qtype-card::after {
+  content:'';
+  position:absolute;
+  bottom:0; left:0; right:0;
+  height:2px;
+  background:linear-gradient(90deg,var(--b500),var(--cyan));
+  opacity:0;
+  transition:opacity .22s;
+}
+
+.qtype-card:hover::after,
+.qtype-card.on::after { opacity:1; }
+
+.qtype-card:hover,
+.qtype-card.on {
+  border-color:var(--b500);
+  background:#2563eb12;
+}
+
+.qtype-card .qi { font-size:1.7rem; margin-bottom:8px; }
+.qtype-card .ql { font-size:.83rem; font-weight:700; color:var(--text); }
+.qtype-card .qd { font-size:.68rem; color:var(--text3); margin-top:3px; }
+
+/* Quiz controls */
+.quiz-controls {
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:22px;
+  align-items:center;
+}
+
+/* Quiz card */
+.qcard {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:28px;
+  margin-bottom:16px;
+}
+
+/* Top bar */
+.qcard-top {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:22px;
+  flex-wrap:wrap;
+}
+
+.q-prog-track {
+  flex:1;
+  min-width:100px;
+  height:5px;
+  background:var(--surface);
+  border-radius:50px;
+  overflow:hidden;
+}
+
+.q-prog-fill {
+  height:100%;
+  background:linear-gradient(90deg,var(--b500),var(--cyan));
+  border-radius:50px;
+  transition:width .4s ease;
+}
+
+.q-num { font-size:.75rem; color:var(--text3); white-space:nowrap; }
+
+.q-scores {
+  display:flex;
+  gap:8px;
+  flex-shrink:0;
+}
+
+.qs {
+  padding:4px 12px;
+  border-radius:50px;
+  font-size:.78rem;
+  font-weight:700;
+}
+
+.qs.c { background:#10b98120; border:1px solid #10b98140; color:var(--success); }
+.qs.w { background:#ef444420; border:1px solid #ef444440; color:var(--danger); }
+
+/* Question */
+.q-text {
+  font-family:'Amiri',serif;
+  font-size:1.4rem;
+  font-weight:700;
+  line-height:1.7;
+  min-height:70px;
+  margin-bottom:22px;
+  color:var(--text);
+  display:flex;
+  align-items:center;
+}
+
+.q-subject-tag {
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-size:.72rem;
+  padding:3px 10px;
+  border-radius:50px;
+  margin-bottom:12px;
+}
+
+/* MCQ options */
+.mcq-opts { display:grid; gap:9px; margin-bottom:20px; }
+
+.mcq-opt {
+  padding:13px 16px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:var(--surface);
+  color:var(--text);
+  font-family:'Tajawal',sans-serif;
+  font-size:.9rem;
+  cursor:pointer;
+  text-align:right;
+  transition:all .18s;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  line-height:1.5;
+}
+
+.mcq-opt .opt-letter {
+  width:28px; height:28px;
+  border-radius:8px;
+  background:var(--card);
+  border:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:.75rem;
+  font-weight:700;
+  color:var(--text3);
+  flex-shrink:0;
+}
+
+.mcq-opt:hover:not(:disabled) {
+  border-color:var(--b400);
+  background:#2563eb12;
+}
+
+.mcq-opt:hover:not(:disabled) .opt-letter {
+  background:#2563eb33;
+  color:var(--b300);
+  border-color:var(--b400);
+}
+
+.mcq-opt.correct { border-color:var(--success); background:#10b98118; color:var(--success); }
+.mcq-opt.correct .opt-letter { background:#10b98133; color:var(--success); border-color:var(--success); }
+.mcq-opt.wrong   { border-color:var(--danger);  background:#ef444418; color:var(--danger); }
+.mcq-opt.wrong   .opt-letter { background:#ef444433; color:var(--danger);  border-color:var(--danger); }
+.mcq-opt:disabled { cursor:default; }
+
+/* TF */
+.tf-row { display:grid; grid-template-columns:1fr 1fr; gap:11px; margin-bottom:20px; }
+
+.tf-btn {
+  padding:18px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:var(--surface);
+  color:var(--text);
+  font-family:'Tajawal',sans-serif;
+  font-size:1.05rem;
+  font-weight:700;
+  cursor:pointer;
+  text-align:center;
+  transition:all .2s;
+}
+
+.tf-btn.t:hover:not(:disabled) { border-color:var(--success); background:#10b98118; }
+.tf-btn.f:hover:not(:disabled) { border-color:var(--danger);  background:#ef444418; }
+.tf-btn.correct { border-color:var(--success); background:#10b98118; color:var(--success); }
+.tf-btn.wrong   { border-color:var(--danger);  background:#ef444418; color:var(--danger); }
+.tf-btn:disabled { cursor:default; }
+
+/* Fill */
+.fill-area { margin-bottom:20px; }
+
+.fill-input {
+  width:100%;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:15px 18px;
+  color:var(--text);
+  font-family:'Amiri',serif;
+  font-size:1.1rem;
+  outline:none;
+  transition:border-color .2s;
+  text-align:center;
+  margin-bottom:9px;
+}
+
+.fill-input:focus { border-color:var(--b400); box-shadow:0 0 0 3px #3b82f618; }
+.fill-input.ok  { border-color:var(--success); background:#10b98115; }
+.fill-input.bad { border-color:var(--danger);  background:#ef444415; }
+
+.btn-check {
+  width:100%;
+  padding:11px;
+  border:none;
+  border-radius:11px;
+  background:linear-gradient(135deg,var(--b600),var(--b800));
+  color:#fff;
+  font-family:'Tajawal',sans-serif;
+  font-size:.93rem;
+  font-weight:700;
+  cursor:pointer;
+  transition:transform .2s;
+}
+
+.btn-check:hover { transform:translateY(-1px); }
+.btn-check:disabled { opacity:.4; cursor:default; transform:none; }
+
+/* Match */
+.match-cols { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px; }
+.match-col-hd { font-size:.7rem; color:var(--text3); letter-spacing:1.5px; text-transform:uppercase; text-align:center; margin-bottom:7px; }
+.match-col-items { display:flex; flex-direction:column; gap:7px; }
+
+.mi {
+  padding:10px 13px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:var(--surface);
+  color:var(--text);
+  font-family:'Tajawal',sans-serif;
+  font-size:.84rem;
+  cursor:pointer;
+  text-align:center;
+  transition:all .18s;
+  line-height:1.4;
+}
+
+.mi:hover  { border-color:var(--b400); background:#2563eb12; }
+.mi.sel    { border-color:var(--hist2); background:#f59e0b18; color:var(--hist2); }
+.mi.match  { border-color:var(--success); background:#10b98118; color:var(--success); cursor:default; }
+.mi.bad    { border-color:var(--danger);  background:#ef444418; color:var(--danger); }
+
+/* Flash */
+.flash-card {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:36px 24px;
+  text-align:center;
+  cursor:pointer;
+  min-height:170px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:12px;
+  transition:all .3s;
+  margin-bottom:14px;
+}
+
+.flash-card:hover { border-color:var(--b400); }
+.flash-card.flipped { background:#0d1f38; border-color:var(--b500); }
+
+.flash-front { font-family:'Amiri',serif; font-size:1.4rem; font-weight:700; color:var(--b200); }
+.flash-back  { font-size:.9rem; color:var(--text); line-height:1.75; max-width:520px; }
+.flash-hint  { font-size:.7rem; color:var(--text3); }
+
+.flash-btns { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px; }
+
+/* Feedback */
+.q-fb {
+  padding:13px 16px;
+  border-radius:12px;
+  font-size:.88rem;
+  margin-bottom:18px;
+  line-height:1.6;
+  display:none;
+  animation:fadeUp .25s ease;
+}
+
+.q-fb.on  { display:block; }
+.q-fb.ok  { background:#10b98118; border:1px solid #10b98140; color:var(--success); }
+.q-fb.bad { background:#ef444418; border:1px solid #ef444440; color:var(--danger); }
+
+/* Quiz actions */
+.q-actions {
+  display:flex;
+  gap:9px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+.q-action-btn {
+  padding:11px 24px;
+  border-radius:11px;
+  border:none;
+  font-family:'Tajawal',sans-serif;
+  font-size:.9rem;
+  font-weight:700;
+  cursor:pointer;
+  transition:transform .2s, opacity .2s;
+  color:#fff;
+}
+
+.q-action-btn:hover:not(:disabled) { transform:translateY(-2px); }
+.q-action-btn:disabled { opacity:.35; cursor:default; transform:none; }
+
+.q-action-btn.next    { background:linear-gradient(135deg,var(--b500),var(--b700)); }
+.q-action-btn.skip    { background:transparent; border:1px solid var(--border); color:var(--text3); }
+.q-action-btn.restart { background:linear-gradient(135deg,#0891b2,#164e63); }
+
+/* Result */
+.quiz-result {
+  text-align:center;
+  padding:44px 20px;
+}
+
+.res-emoji { font-size:4rem; margin-bottom:14px; }
+.res-score {
+  font-size:4rem;
+  font-weight:900;
+  font-family:'Tajawal',sans-serif;
+  margin-bottom:6px;
+}
+
+.res-msg { font-size:1rem; color:var(--text3); margin-bottom:26px; }
+
+.res-grid {
+  display:flex;
+  gap:14px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-bottom:28px;
+}
+
+.res-pill {
+  padding:11px 20px;
+  border-radius:12px;
+  font-size:.88rem;
+  font-weight:700;
+}
+
+.res-pill.c { background:#10b98120; border:1px solid #10b98140; color:var(--success); }
+.res-pill.w { background:#ef444420; border:1px solid #ef444440; color:var(--danger); }
+.res-pill.s { background:#2563eb20; border:1px solid #2563eb40; color:var(--b300); }
+
+/* ═══ TOAST ═══ */
+.toast {
+  position:fixed;
+  bottom:24px;
+  left:50%;
+  transform:translateX(-50%) translateY(80px);
+  background:var(--b600);
+  color:#fff;
+  padding:11px 26px;
+  border-radius:50px;
+  font-weight:700;
+  font-family:'Tajawal',sans-serif;
+  font-size:.9rem;
+  z-index:9999;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+  pointer-events:none;
+  white-space:nowrap;
+  box-shadow:0 4px 20px #2563eb44;
+}
+
+.toast.on  { transform:translateX(-50%) translateY(0); }
+.toast.err { background:#991b1b; box-shadow:0 4px 20px #ef444444; }
+.toast.ok  { background:#065f46; box-shadow:0 4px 20px #10b98144; }
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:900px){
+  .sb { transform:translateX(110%); }
+  .sb.open { transform:translateX(0); }
+  .main { margin-right:0; max-width:100vw; padding:20px 16px 80px; }
+  .hamburger { display:flex; }
+  .overlay { display:block; }
+}
+
+@media(max-width:520px){
+  .cards-grid { grid-template-columns:1fr; }
+  .kpi-grid   { grid-template-columns:repeat(2,1fr); }
+  .qtype-grid { grid-template-columns:repeat(2,1fr); }
+  .match-cols { grid-template-columns:1fr; }
+  .tf-row     { grid-template-columns:1fr; }
+  .flash-btns { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- ═══════════════ SIDEBAR ═══════════════ -->
+<aside class="sb" id="sb">
+  <div class="sb-logo">
+    <div class="logo-mark">Z</div>
+    <div class="logo-text">
+      <h1>ZINO</h1>
+      <p>تاريخ وجغرافيا • البكالوريا</p>
+    </div>
+  </div>
+
+  <nav class="sb-nav">
+    <div class="nav-group-label">الرئيسية</div>
+    <button class="nav-btn active" onclick="go('dash',this)">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-lbl">لوحة التحكم</span>
+    </button>
+
+    <div class="nav-divider"></div>
+    <div class="nav-group-label">📜 التاريخ</div>
+
+    <button class="nav-btn" onclick="go('hist-dates',this)">
+      <span class="nav-icon">📅</span>
+      <span class="nav-lbl">التواريخ</span>
+      <span class="nav-count" id="nc-hd">0</span>
+    </button>
+    <button class="nav-btn" onclick="go('hist-persons',this)">
+      <span class="nav-icon">👤</span>
+      <span class="nav-lbl">الشخصيات</span>
+      <span class="nav-count" id="nc-hp">0</span>
+    </button>
+    <button class="nav-btn" onclick="go('hist-terms',this)">
+      <span class="nav-icon">📖</span>
+      <span class="nav-lbl">المصطلحات</span>
+      <span class="nav-count" id="nc-ht">0</span>
+    </button>
+    <button class="nav-btn" onclick="go('hist-defs',this)">
+      <span class="nav-icon">📝</span>
+      <span class="nav-lbl">التعاريف</span>
+      <span class="nav-count" id="nc-hdf">0</span>
+    </button>
+
+    <div class="nav-divider"></div>
+    <div class="nav-group-label">🌍 الجغرافيا</div>
+
+    <button class="nav-btn" onclick="go('geo-dates',this)">
+      <span class="nav-icon">📅</span>
+      <span class="nav-lbl">التواريخ</span>
+      <span class="nav-count" id="nc-gd">0</span>
+    </button>
+    <button class="nav-btn" onclick="go('geo-persons',this)">
+      <span class="nav-icon">👤</span>
+      <span class="nav-lbl">الشخصيات</span>
+      <span class="nav-count" id="nc-gp">0</span>
+    </button>
+    <button class="nav-btn" onclick="go('geo-terms',this)">
+      <span class="nav-icon">📖</span>
+      <span class="nav-lbl">المصطلحات</span>
+      <span class="nav-count" id="nc-gt">0</span>
+    </button>
+    <button class="nav-btn" onclick="go('geo-defs',this)">
+      <span class="nav-icon">📝</span>
+      <span class="nav-lbl">التعاريف</span>
+      <span class="nav-count" id="nc-gdf">0</span>
+    </button>
+
+    <div class="nav-divider"></div>
+    <div class="nav-group-label">الاختبارات</div>
+
+    <button class="nav-btn" onclick="go('quiz',this)">
+      <span class="nav-icon">🎯</span>
+      <span class="nav-lbl">اختبارات متنوعة</span>
+    </button>
+  </nav>
+
+  <div class="sb-foot">
+    <div class="sb-stats">
+      <div class="sb-stat"><div class="sn" id="ss-total">0</div><div class="sl">إجمالي</div></div>
+      <div class="sb-stat"><div class="sn" id="ss-hist" style="color:var(--hist2)">0</div><div class="sl">تاريخ</div></div>
+      <div class="sb-stat"><div class="sn" id="ss-geo" style="color:var(--geo2)">0</div><div class="sl">جغرافيا</div></div>
+    </div>
+    <div class="subject-toggle">
+      <button class="subj-btn hist on" id="sb-hist" onclick="setSbFilter('hist')">📜 التاريخ</button>
+      <button class="subj-btn geo on"  id="sb-geo"  onclick="setSbFilter('geo')">🌍 الجغرافيا</button>
+    </div>
+  </div>
+</aside>
+
+<div class="overlay" id="overlay" onclick="closeSb()"></div>
+<button class="hamburger" id="hbg" onclick="toggleSb()">☰ <span>القائمة</span></button>
+
+<!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+<main class="main rel">
+
+<!-- ══ DASHBOARD ══ -->
+<div class="panel on" id="panel-dash">
+  <div class="page-hero">
+    <div class="hero-left">
+      <h2>مرحباً في ZINO 👋</h2>
+      <p>منصتك لحفظ ومراجعة التاريخ والجغرافيا • المنهج الجزائري للبكالوريا</p>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi b" onclick="go('hist-dates',null)">
+      <div class="kpi-icon">📅</div>
+      <div class="kpi-num" id="kpi-hd">0</div>
+      <div class="kpi-lbl">تاريخ تاريخي</div>
+    </div>
+    <div class="kpi h" onclick="go('hist-persons',null)">
+      <div class="kpi-icon">👤</div>
+      <div class="kpi-num" id="kpi-hp">0</div>
+      <div class="kpi-lbl">شخصية تاريخية</div>
+    </div>
+    <div class="kpi g" onclick="go('geo-dates',null)">
+      <div class="kpi-icon">🌍</div>
+      <div class="kpi-num" id="kpi-gd">0</div>
+      <div class="kpi-lbl">تاريخ جغرافي</div>
+    </div>
+    <div class="kpi v" onclick="go('quiz',null)">
+      <div class="kpi-icon">🎯</div>
+      <div class="kpi-num" id="kpi-qs">0</div>
+      <div class="kpi-lbl">سؤال أُجيب</div>
+    </div>
+    <div class="kpi c" onclick="go('hist-terms',null)">
+      <div class="kpi-icon">📖</div>
+      <div class="kpi-num" id="kpi-terms">0</div>
+      <div class="kpi-lbl">مصطلح محفوظ</div>
+    </div>
+  </div>
+
+  <div class="dash-two">
+    <div class="dash-box">
+      <h3>📊 التوزيع حسب الوحدة</h3>
+      <div id="prog-bars"></div>
+    </div>
+    <div class="dash-box">
+      <h3>🕐 آخر الإضافات</h3>
+      <div id="activity"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ HISTORY DATES ══ -->
+<div class="panel" id="panel-hist-dates">
+  <div class="page-hero">
+    <div class="hero-left"><h2>📅 التواريخ التاريخية</h2><p>أحداث ومحطات المنهج الجزائري في التاريخ</p></div>
+    <span class="subj-badge hist">📜 التاريخ</span>
+  </div>
+  <div id="hd-form-area"></div>
+  <div class="toolbar">
+    <div class="search-box"><input id="hd-s" type="text" placeholder="ابحث في التواريخ..." oninput="renderDates('hist')"><span class="search-icon">🔍</span></div>
+    <select class="fsel" id="hd-u" onchange="renderDates('hist')">
+      <option value="all">كل الوحدات</option>
+      <option value="الثورة الجزائرية">الثورة الجزائرية</option>
+      <option value="الحركة الوطنية">الحركة الوطنية</option>
+      <option value="الاستعمار">الاستعمار</option>
+      <option value="التاريخ القديم">التاريخ القديم</option>
+      <option value="التاريخ الحديث">التاريخ الحديث</option>
+      <option value="تاريخ عالمي">تاريخ عالمي</option>
+    </select>
+  </div>
+  <div class="list-header"><h3 id="hd-title">التواريخ</h3><span class="cnt" id="hd-cnt">0</span></div>
+  <div class="cards-grid" id="hd-grid"></div>
+  <div class="empty" id="hd-empty"><div class="ei">📅</div><p>لا توجد تواريخ — أضف أول تاريخ!</p></div>
+</div>
+
+<!-- ══ HISTORY PERSONS ══ -->
+<div class="panel" id="panel-hist-persons">
+  <div class="page-hero">
+    <div class="hero-left"><h2>👤 الشخصيات التاريخية</h2><p>قادة وعلماء وشخصيات بارزة في التاريخ الجزائري</p></div>
+    <span class="subj-badge hist">📜 التاريخ</span>
+  </div>
+  <div id="hp-form-area"></div>
+  <div class="toolbar">
+    <div class="search-box"><input id="hp-s" type="text" placeholder="ابحث في الشخصيات..." oninput="renderPersons('hist')"><span class="search-icon">🔍</span></div>
+    <select class="fsel" id="hp-u" onchange="renderPersons('hist')">
+      <option value="all">كل الوحدات</option>
+      <option value="الثورة الجزائرية">الثورة الجزائرية</option>
+      <option value="الحركة الوطنية">الحركة الوطنية</option>
+      <option value="الاستعمار">الاستعمار</option>
+      <option value="التاريخ القديم">التاريخ القديم</option>
+      <option value="التاريخ الحديث">التاريخ الحديث</option>
+      <option value="تاريخ عالمي">تاريخ عالمي</option>
+    </select>
+  </div>
+  <div class="list-header"><h3 id="hp-title">الشخصيات</h3><span class="cnt" id="hp-cnt">0</span></div>
+  <div class="cards-grid" id="hp-grid"></div>
+  <div class="empty" id="hp-empty"><div class="ei">👤</div><p>لا توجد شخصيات — أضف أول شخصية!</p></div>
+</div>
+
+<!-- ══ HISTORY TERMS ══ -->
+<div class="panel" id="panel-hist-terms">
+  <div class="page-hero">
+    <div class="hero-left"><h2>📖 مصطلحات التاريخ</h2><p>مفاهيم ومصطلحات التاريخ حسب المنهج الجزائري</p></div>
+    <span class="subj-badge hist">📜 التاريخ</span>
+  </div>
+  <div id="ht-form-area"></div>
+  <div class="toolbar">
+    <div class="search-box"><input id="ht-s" type="text" placeholder="ابحث في المصطلحات..." oninput="renderTerms('hist')"><span class="search-icon">🔍</span></div>
+    <select class="fsel" id="ht-u" onchange="renderTerms('hist')">
+      <option value="all">كل الوحدات</option>
+      <option value="الثورة الجزائرية">الثورة الجزائرية</option>
+      <option value="الحركة الوطنية">الحركة الوطنية</option>
+      <option value="الاستعمار">الاستعمار</option>
+      <option value="التاريخ القديم">التاريخ القديم</option>
+      <option value="التاريخ الحديث">التاريخ الحديث</option>
+      <option value="تاريخ عالمي">تاريخ عالمي</option>
+    </select>
+  </div>
+  <div class="list-header"><h3 id="ht-title">المصطلحات</h3><span class="cnt" id="ht-cnt">0</span></div>
+  <div class="cards-grid" id="ht-grid"></div>
+  <div class="empty" id="ht-empty"><div class="ei">📖</div><p>لا توجد مصطلحات — أضف أول مصطلح!</p></div>
+</div>
+
+<!-- ══ HISTORY DEFS ══ -->
+<div class="panel" id="panel-hist-defs">
+  <div class="page-hero">
+    <div class="hero-left"><h2>📝 تعاريف التاريخ</h2><p>تعاريف مفصّلة للمفاهيم التاريخية</p></div>
+    <span class="subj-badge hist">📜 التاريخ</span>
+  </div>
+  <div id="hdf-form-area"></div>
+  <div class="toolbar">
+    <div class="search-box"><input id="hdf-s" type="text" placeholder="ابحث في التعاريف..." oninput="renderDefs('hist')"><span class="search-icon">🔍</span></div>
+    <select class="fsel" id="hdf-u" onchange="renderDefs('hist')">
+      <option value="all">كل الوحدات</option>
+      <option value="الثورة الجزائرية">الثورة الجزائرية</option>
+      <option value="الحركة الوطنية">الحركة الوطنية</option>
+      <option value="الاستعمار">الاستعمار</option>
+      <option value="التاريخ القديم">التاريخ القديم</option>
+      <option value="التاريخ الحديث">التاريخ الحديث</option>
+      <option value="تاريخ عالمي">تاريخ عالمي</option>
+    </select>
+  </div>
+  <div class="list-header"><h3 id="hdf-title">التعاريف</h3><span class="cnt" id="hdf-cnt">0</span></div>
+  <div class="cards-grid" id="hdf-grid"></div>
+  <div class="empty" id="hdf-empty"><div class="ei">📝</div><p>لا توجد تعاريف — أضف أول تعريف!</p></div>
+</div>
+
+<!-- ══ GEO DATES ══ -->
+<div class="panel" id="panel-geo-dates">
+  <div class="page-hero">
+    <div class="hero-left"><h2>📅 التواريخ الجغرافية</h2><p>أحداث ومحطات في الجغرافيا الجزائرية</p></div>
+    <span class="subj-badge geo">🌍 الجغرافيا</span>
+  </div>
+  <div id="gd-form-area"></div>
+  <div class="toolbar">
+    <div class="search-box"><input id="gd-s" type="text" placeholder="ابحث في التواريخ..." oninput="renderDates('geo')"><span class="search-icon">🔍</span></div>
+    <select class="fsel" id="gd-u" onchange="renderDates('geo')">
+      <option value="all">كل الوحدات</option>
+      <option value="الجغرافيا السكانية">السكانية</option>
+      <option value="الجغرافيا الاقتصادية">الاقتصادية</option>
+      <option value="الجغرافيا السياسية">السياسية</option>
+      <option value="الجغرافيا الطبيعية">الطبيعية</option>
+      <option value="الجغرافيا البيئية">البيئية</option>
+      <option value="الجغرافيا الإقليمية">الإقليمية</option>
+    </select>
+  </div>
+  <div class="list-header"><h3 id="gd-title">التواريخ</h3><span class="cnt" id="gd-cnt">0</span></div>
+  <div class="cards-grid" id="gd-grid"></div>
+  <div class="empty" id="gd-empty"><div class="ei">📅</div><p>لا توجد تواريخ — أضف أول تاريخ!</p></div>
+</div>
+
+<!-- ══ GEO PERSONS ══ -->
+<div class="panel" id="panel-geo-persons">
+  <div class="page-hero">
+    <div class="hero-left"><h2>👤 شخصيات الجغرافيا</h2><p>جغرافيون وعلماء بارزون</p></div>
+    <span class="subj-badge geo">🌍 الجغرافيا</span>
+  </div>
+  <div id="gp-form-area"></div>
+  <div class="toolbar">
+    <div class="search-box"><input id="gp-s" type="text" placeholder="ابحث في الشخصيات..." oninput="renderPersons('geo')"><span class="search-icon">🔍</span></div>
+    <select class="fsel" id="gp-u" onchange="renderPersons('geo')">
+      <option value="all">كل الوحدات</option>
+      <option value="الجغرافيا السكانية">السكانية</option>
+      <option value="الجغرافيا الاقتصادية">الاقتصادية</option>
+      <option value="الجغرافيا السياسية">السياسية</option>
+      <option value="الجغرافيا الطبيعية">الطبيعية</option>
+      <option value="الجغرافيا البيئية">البيئية</option>
+      <option value="الجغرافيا الإقليمية">الإقليمية</option>
+    </select>
+  </div>
+  <div class="list-header"><h3 id="gp-title">الشخصيات</h3><span class="cnt" id="gp-cnt">0</span></div>
+  <div class="cards-grid" id="gp-grid"></div>
+  <div class="empty" id="gp-empty"><div class="ei">👤</div><p>لا توجد شخصيات — أضف أول شخصية!</p></div>
+</div>
+
+<!-- ══ GEO TERMS ══ -->
+<div class="panel" id="panel-geo-terms">
+  <div class="page-hero">
+    <div class="hero-left"><h2>📖 مصطلحات الجغرافيا</h2><p>مفاهيم ومصطلحات الجغرافيا حسب المنهج الجزائري</p></div>
+    <span class="subj-badge geo">🌍 الجغرافيا</span>
+  </div>
+  <div id="gt-form-area"></div>
+  <div class="toolbar">
+    <div class="search-box"><input id="gt-s" type="text" placeholder="ابحث في المصطلحات..." oninput="renderTerms('geo')"><span class="search-icon">🔍</span></div>
+    <select class="fsel" id="gt-u" onchange="renderTerms('geo')">
+      <option value="all">كل الوحدات</option>
+      <option value="الجغرافيا السكانية">السكانية</option>
+      <option value="الجغرافيا الاقتصادية">الاقتصادية</option>
+      <option value="الجغرافيا السياسية">السياسية</option>
+      <option value="الجغرافيا الطبيعية">الطبيعية</option>
+      <option value="الجغرافيا البيئية">البيئية</option>
+      <option value="الجغرافيا الإقليمية">الإقليمية</option>
+    </select>
+  </div>
+  <div class="list-header"><h3 id="gt-title">المصطلحات</h3><span class="cnt" id="gt-cnt">0</span></div>
+  <div class="cards-grid" id="gt-grid"></div>
+  <div class="empty" id="gt-empty"><div class="ei">📖</div><p>لا توجد مصطلحات — أضف أول مصطلح!</p></div>
+</div>
+
+<!-- ══ GEO DEFS ══ -->
+<div class="panel" id="panel-geo-defs">
+  <div class="page-hero">
+    <div class="hero-left"><h2>📝 تعاريف الجغرافيا</h2><p>تعاريف مفصّلة للمفاهيم الجغرافية</p></div>
+    <span class="subj-badge geo">🌍 الجغرافيا</span>
+  </div>
+  <div id="gdf-form-area"></div>
+  <div class="toolbar">
+    <div class="search-box"><input id="gdf-s" type="text" placeholder="ابحث في التعاريف..." oninput="renderDefs('geo')"><span class="search-icon">🔍</span></div>
+    <select class="fsel" id="gdf-u" onchange="renderDefs('geo')">
+      <option value="all">كل الوحدات</option>
+      <option value="الجغرافيا السكانية">السكانية</option>
+      <option value="الجغرافيا الاقتصادية">الاقتصادية</option>
+      <option value="الجغرافيا السياسية">السياسية</option>
+      <option value="الجغرافيا الطبيعية">الطبيعية</option>
+      <option value="الجغرافيا البيئية">البيئية</option>
+      <option value="الجغرافيا الإقليمية">الإقليمية</option>
+    </select>
+  </div>
+  <div class="list-header"><h3 id="gdf-title">التعاريف</h3><span class="cnt" id="gdf-cnt">0</span></div>
+  <div class="cards-grid" id="gdf-grid"></div>
+  <div class="empty" id="gdf-empty"><div class="ei">📝</div><p>لا توجد تعاريف — أضف أول تعريف!</p></div>
+</div>
+
+<!-- ══ QUIZ ══ -->
+<div class="panel" id="panel-quiz">
+  <div class="page-hero">
+    <div class="hero-left"><h2>🎯 اختبارات متنوعة</h2><p>5 أنواع من الاختبارات لكل المحتوى</p></div>
+  </div>
+  <div class="quiz-wrap">
+    <div class="qtype-grid">
+      <div class="qtype-card on" data-t="mcq" onclick="selQType('mcq',this)"><div class="qi">🔘</div><div class="ql">اختيار متعدد</div><div class="qd">4 خيارات</div></div>
+      <div class="qtype-card"    data-t="tf"  onclick="selQType('tf',this)"><div class="qi">✅</div><div class="ql">صح أو خطأ</div><div class="qd">صواب / خطأ</div></div>
+      <div class="qtype-card"    data-t="fill"onclick="selQType('fill',this)"><div class="qi">✍️</div><div class="ql">أكمل الفراغ</div><div class="qd">اكتب الإجابة</div></div>
+      <div class="qtype-card"    data-t="match"onclick="selQType('match',this)"><div class="qi">🔗</div><div class="ql">مطابقة</div><div class="qd">رابط المفاهيم</div></div>
+      <div class="qtype-card"    data-t="flash"onclick="selQType('flash',this)"><div class="qi">⚡</div><div class="ql">بطاقات سريعة</div><div class="qd">اقلب البطاقة</div></div>
+    </div>
+    <div class="quiz-controls">
+      <select class="fsel" id="q-filter" style="flex:1">
+        <option value="all">كل المحتوى (تاريخ + جغرافيا)</option>
+        <option value="hist">التاريخ فقط</option>
+        <option value="geo">الجغرافيا فقط</option>
+        <option value="dates">التواريخ فقط</option>
+        <option value="persons">الشخصيات فقط</option>
+        <option value="terms">المصطلحات فقط</option>
+        <option value="defs">التعاريف فقط</option>
+      </select>
+      <select class="fsel" id="q-count">
+        <option value="10">10 أسئلة</option>
+        <option value="20">20 سؤال</option>
+        <option value="30">30 سؤال</option>
+        <option value="50">50 سؤال</option>
+        <option value="0">كل الأسئلة</option>
+      </select>
+      <button class="btn-save blue" style="grid-column:auto;width:auto;padding:10px 22px;" onclick="startQuiz()">▶ ابدأ</button>
+    </div>
+    <div id="quiz-area" style="display:none">
+      <div class="qcard">
+        <div class="qcard-top">
+          <div class="q-prog-track"><div class="q-prog-fill" id="qpf" style="width:0%"></div></div>
+          <div class="q-num" id="qnum">1/10</div>
+          <div class="q-scores"><span class="qs c">✅ <span id="qc">0</span></span><span class="qs w">❌ <span id="qw">0</span></span></div>
+        </div>
+        <div class="q-subject-tag" id="q-stag"></div>
+        <div class="q-text" id="q-text"></div>
+
+        <!-- MCQ -->
+        <div id="mcq-area"><div class="mcq-opts" id="mcq-opts"></div></div>
+        <!-- TF -->
+        <div id="tf-area" style="display:none">
+          <div class="tf-row">
+            <button class="tf-btn t" onclick="ansTF(true)">✅ صحيح</button>
+            <button class="tf-btn f" onclick="ansTF(false)">❌ خطأ</button>
+          </div>
+        </div>
+        <!-- Fill -->
+        <div id="fill-area" style="display:none">
+          <div class="fill-area">
+            <input class="fill-input" id="fill-in" type="text" placeholder="اكتب إجابتك...">
+            <button class="btn-check" id="fill-btn" onclick="checkFill()">تحقق من الإجابة ✓</button>
+          </div>
+        </div>
+        <!-- Match -->
+        <div id="match-area" style="display:none">
+          <div class="match-cols">
+            <div><div class="match-col-hd">المصطلحات</div><div class="match-col-items" id="match-L"></div></div>
+            <div><div class="match-col-hd">التعاريف</div><div class="match-col-items" id="match-R"></div></div>
+          </div>
+        </div>
+        <!-- Flash -->
+        <div id="flash-area" style="display:none">
+          <div class="flash-card" id="flash-card" onclick="flipFlash()">
+            <div class="flash-front" id="flash-front"></div>
+            <div class="flash-back"  id="flash-back"  style="display:none"></div>
+            <div class="flash-hint" id="flash-hint">انقر للكشف ↓</div>
+          </div>
+          <div class="flash-btns" id="flash-btns" style="display:none">
+            <button class="tf-btn t" onclick="flashAns(true)">✅ عرفتها</button>
+            <button class="tf-btn f" onclick="flashAns(false)">❌ لم أعرف</button>
+          </div>
+        </div>
+
+        <div class="q-fb" id="q-fb"></div>
+        <div class="q-actions">
+          <button class="q-action-btn next"    id="qnext" onclick="nextQ()" disabled>التالي ▶</button>
+          <button class="q-action-btn skip"    id="qskip" onclick="skipQ()">تخطّ ⏭</button>
+          <button class="q-action-btn restart" id="qrestart" style="display:none" onclick="startQuiz()">إعادة ▶▶</button>
+        </div>
+      </div>
+    </div>
+    <div id="quiz-result" style="display:none">
+      <div class="quiz-result">
+        <div class="res-emoji" id="re"></div>
+        <div class="res-score" id="rs"></div>
+        <div class="res-msg"   id="rm"></div>
+        <div class="res-grid">
+          <div class="res-pill c">✅ صحيح: <span id="rc">0</span></div>
+          <div class="res-pill w">❌ خطأ: <span id="rw">0</span></div>
+          <div class="res-pill s">📊 <span id="rp">0</span>%</div>
+        </div>
+        <div class="q-actions">
+          <button class="q-action-btn next"    onclick="startQuiz()">إعادة الاختبار</button>
+          <button class="q-action-btn restart" onclick="go('dash',null)">لوحة التحكم 🏠</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div><!-- /shell -->
+<div class="toast" id="toast"></div>
+
+<!-- ══════════════════════════════════════════════════
+     JAVASCRIPT ENGINE
+══════════════════════════════════════════════════ -->
+<script>
+// ══ STORAGE KEYS ══
+const K = {
+  hd:'zino_hist_dates', hp:'zino_hist_persons', ht:'zino_hist_terms', hdf:'zino_hist_defs',
+  gd:'zino_geo_dates',  gp:'zino_geo_persons',  gt:'zino_geo_terms',  gdf:'zino_geo_defs',
+  qs:'zino_quiz_stats', act:'zino_activity'
+};
+
+function ld(k){ try{ return JSON.parse(localStorage.getItem(K[k]))||[]; }catch{ return []; } }
+function sv(k,v){ localStorage.setItem(K[k],JSON.stringify(v)); }
+function ldObj(k,def){ try{ return JSON.parse(localStorage.getItem(K[k]))||def; }catch{ return def; } }
+
+// ══ ACTIVITY ══
+function logAct(type,name,subj){
+  const a=JSON.parse(localStorage.getItem(K.act)||'[]');
+  a.unshift({type,name,subj,t:Date.now()});
+  localStorage.setItem(K.act,JSON.stringify(a.slice(0,25)));
+}
+
+function getAct(){ return JSON.parse(localStorage.getItem(K.act)||'[]'); }
+
+// ══ QUIZ STATS ══
+function getQS(){ return ldObj('qs',{total:0,correct:0}); }
+function saveQS(ok){ const s=getQS(); s.total++; if(ok) s.correct++; localStorage.setItem(K.qs,JSON.stringify(s)); }
+
+// ══ SIDEBAR NAV ══
+function go(panel, btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+panel).classList.add('on');
+  if(btn) btn.classList.add('active');
+  closeSb();
+  if(panel==='dash') renderDash();
+
+  // Build form on demand
+  const formMap = {
+    'hist-dates':   ()=>buildForm('hd','hist','date'),
+    'hist-persons': ()=>buildForm('hp','hist','person'),
+    'hist-terms':   ()=>buildForm('ht','hist','term'),
+    'hist-defs':    ()=>buildForm('hdf','hist','def'),
+    'geo-dates':    ()=>buildForm('gd','geo','date'),
+    'geo-persons':  ()=>buildForm('gp','geo','person'),
+    'geo-terms':    ()=>buildForm('gt','geo','term'),
+    'geo-defs':     ()=>buildForm('gdf','geo','def'),
+  };
+  if(formMap[panel]) formMap[panel]();
+}
+
+// ══ SIDEBAR TOGGLE ══
+function toggleSb(){ document.getElementById('sb').classList.toggle('open'); document.getElementById('overlay').classList.toggle('on'); }
+function closeSb(){ document.getElementById('sb').classList.remove('open'); document.getElementById('overlay').classList.remove('on'); }
+
+// ══ UTILS ══
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function escA(s){ return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
+function shuf(a){ const b=[...a]; for(let i=b.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]; } return b; }
+function ago(t){ const d=Date.now()-t; if(d<60000) return 'الآن'; if(d<3600000) return Math.floor(d/60000)+' د'; if(d<86400000) return Math.floor(d/3600000)+' س'; return Math.floor(d/86400000)+' ي'; }
+function toast(msg,type=''){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast'+(type?' '+type:'');
+  t.classList.add('on');
+  setTimeout(()=>t.classList.remove('on'),2800);
+}
+
+// ══ UNITS CONFIG ══
+const HIST_UNITS = ['الثورة الجزائرية','الحركة الوطنية','الاستعمار','التاريخ القديم','التاريخ الحديث','تاريخ عالمي'];
+const GEO_UNITS  = ['الجغرافيا السكانية','الجغرافيا الاقتصادية','الجغرافيا السياسية','الجغرافيا الطبيعية','الجغرافيا البيئية','الجغرافيا الإقليمية'];
+
+// ══ SIDEBAR FILTER TOGGLE ══
+let sbFilter = {hist:true, geo:true};
+function setSbFilter(s){
+  sbFilter[s] = !sbFilter[s];
+  document.getElementById('sb-'+s).classList.toggle('on', sbFilter[s]);
+}
+
+// ══ FORM BUILDER (on demand) ══
+function buildForm(prefix, subj, type){
+  const area = document.getElementById(prefix+'-form-area');
+  if(area.innerHTML.trim()) return; // already built
+
+  const units = subj==='hist' ? HIST_UNITS : GEO_UNITS;
+  const unitOpts = units.map(u=>`<option value="${u}">${u}</option>`).join('');
+  const storeKey = prefix.replace('-','');
+
+  const configs = {
+    date: {
+      title:`➕ إضافة تاريخ جديد`,
+      color:'blue',
+      fields:`
+        <div class="fld"><label>السنة / الفترة</label><input id="${prefix}-year" type="text" placeholder="مثال: 1954، 1830-1962..."></div>
+        <div class="fld"><label>الوحدة</label><select id="${prefix}-unit">${unitOpts}</select></div>
+        <div class="fld full"><label>الحدث / المعلومة</label><input id="${prefix}-event" type="text" placeholder="اكتب الحدث المرتبط بهذا التاريخ..."></div>
+        <div class="fld full"><label>الشرح والتفاصيل</label><textarea id="${prefix}-desc" placeholder="شرح الحدث وأهميته..."></textarea></div>
+        <div class="fld"><label>المصدر</label><input id="${prefix}-source" type="text" placeholder="الكتاب المدرسي، الصفحة..."></div>
+      `,
+      fn:`addDate('${prefix}','${storeKey}','${subj}')`
+    },
+    person: {
+      title:`➕ إضافة شخصية جديدة`,
+      color: subj==='hist'?'amber':'emerald',
+      fields:`
+        <div class="fld"><label>الاسم الكامل</label><input id="${prefix}-name" type="text" placeholder="اسم الشخصية..."></div>
+        <div class="fld"><label>الفترة الزمنية</label><input id="${prefix}-era" type="text" placeholder="مثال: 1881-1954"></div>
+        <div class="fld"><label>الوحدة</label><select id="${prefix}-unit">${unitOpts}</select></div>
+        <div class="fld"><label>الجنسية</label><input id="${prefix}-nat" type="text" placeholder="جزائري، فرنسي..."></div>
+        <div class="fld full"><label>إسهاماته ودوره</label><textarea id="${prefix}-role" placeholder="ما الدور والإسهامات؟"></textarea></div>
+        <div class="fld full"><label>أبرز أعماله</label><input id="${prefix}-works" type="text" placeholder="كتب، مؤلفات، أعمال..."></div>
+      `,
+      fn:`addPerson('${prefix}','${storeKey}','${subj}')`
+    },
+    term: {
+      title:`➕ إضافة مصطلح جديد`,
+      color: subj==='hist'?'amber':'cyan',
+      fields:`
+        <div class="fld"><label>المصطلح</label><input id="${prefix}-word" type="text" placeholder="اسم المصطلح..."></div>
+        <div class="fld"><label>بالفرنسية</label><input id="${prefix}-fr" type="text" placeholder="Terme en français..."></div>
+        <div class="fld"><label>الوحدة</label><select id="${prefix}-unit">${unitOpts}</select></div>
+        <div class="fld"><label>المستوى</label><select id="${prefix}-lvl"><option value="أساسي">أساسي</option><option value="متوسط">متوسط</option><option value="متقدم">متقدم</option></select></div>
+        <div class="fld full"><label>المعنى المختصر</label><input id="${prefix}-meaning" type="text" placeholder="شرح مختصر في جملة..."></div>
+        <div class="fld full"><label>مثال توضيحي</label><input id="${prefix}-ex" type="text" placeholder="مثال من الكتاب أو الواقع..."></div>
+      `,
+      fn:`addTerm('${prefix}','${storeKey}','${subj}')`
+    },
+    def: {
+      title:`➕ إضافة تعريف جديد`,
+      color:'violet',
+      fields:`
+        <div class="fld"><label>المفهوم</label><input id="${prefix}-concept" type="text" placeholder="اسم المفهوم..."></div>
+        <div class="fld"><label>الوحدة</label><select id="${prefix}-unit">${unitOpts}</select></div>
+        <div class="fld full"><label>التعريف الكامل</label><textarea id="${prefix}-def" placeholder="التعريف الدقيق حسب المنهج الجزائري..." style="min-height:100px"></textarea></div>
+        <div class="fld full"><label>أمثلة وتطبيقات</label><textarea id="${prefix}-ex" placeholder="أمثلة من الجزائر أو العالم..."></textarea></div>
+        <div class="fld full"><label>كلمات مفتاحية (مفصولة بفاصلة)</label><input id="${prefix}-keys" type="text" placeholder="كلمة1، كلمة2..."></div>
+      `,
+      fn:`addDef('${prefix}','${storeKey}','${subj}')`
+    }
+  };
+
+  const cfg = configs[type];
+  area.innerHTML = `
+    <div class="form-toggle" id="${prefix}-toggle" onclick="toggleForm('${prefix}')">
+      <span>${cfg.title}</span>
+      <span class="toggle-arrow">▼</span>
+    </div>
+    <div class="form-body" id="${prefix}-body">
+      <div class="fg">${cfg.fields}<button class="btn-save ${cfg.color}" onclick="${cfg.fn}">＋ حفظ</button></div>
+    </div>
+  `;
+}
+
+function toggleForm(prefix){
+  const t=document.getElementById(prefix+'-toggle');
+  const b=document.getElementById(prefix+'-body');
+  t.classList.toggle('open');
+  b.classList.toggle('open');
+}
+
+// ══ ADD FUNCTIONS ══
+function addDate(prefix,key,subj){
+  const year  = document.getElementById(prefix+'-year')?.value.trim();
+  const event = document.getElementById(prefix+'-event')?.value.trim();
+  const desc  = document.getElementById(prefix+'-desc')?.value.trim();
+  const unit  = document.getElementById(prefix+'-unit')?.value;
+  const source= document.getElementById(prefix+'-source')?.value.trim();
+  if(!year||!event){ toast('يرجى إدخال السنة والحدث','err'); return; }
+  const items=ld(key);
+  items.unshift({id:Date.now(),year,event,desc,unit,source,subj});
+  sv(key,items);
+  document.getElementById(prefix+'-year').value='';
+  document.getElementById(prefix+'-event').value='';
+  document.getElementById(prefix+'-desc').value='';
+  document.getElementById(prefix+'-source').value='';
+  logAct('date',event,subj);
+  renderDates(subj); updateAll(); toast('✅ تم حفظ التاريخ','ok');
+}
+
+function addPerson(prefix,key,subj){
+  const name  = document.getElementById(prefix+'-name')?.value.trim();
+  const era   = document.getElementById(prefix+'-era')?.value.trim();
+  const unit  = document.getElementById(prefix+'-unit')?.value;
+  const nat   = document.getElementById(prefix+'-nat')?.value.trim();
+  const role  = document.getElementById(prefix+'-role')?.value.trim();
+  const works = document.getElementById(prefix+'-works')?.value.trim();
+  if(!name||!role){ toast('يرجى إدخال الاسم والدور','err'); return; }
+  const items=ld(key);
+  items.unshift({id:Date.now(),name,era,unit,nat,role,works,subj});
+  sv(key,items);
+  ['name','era','nat','role','works'].forEach(f=>{ const el=document.getElementById(prefix+'-'+f); if(el) el.value=''; });
+  logAct('person',name,subj);
+  renderPersons(subj); updateAll(); toast('✅ تم حفظ الشخصية','ok');
+}
+
+function addTerm(prefix,key,subj){
+  const word    = document.getElementById(prefix+'-word')?.value.trim();
+  const fr      = document.getElementById(prefix+'-fr')?.value.trim();
+  const unit    = document.getElementById(prefix+'-unit')?.value;
+  const lvl     = document.getElementById(prefix+'-lvl')?.value;
+  const meaning = document.getElementById(prefix+'-meaning')?.value.trim();
+  const ex      = document.getElementById(prefix+'-ex')?.value.trim();
+  if(!word||!meaning){ toast('يرجى إدخال المصطلح والمعنى','err'); return; }
+  const items=ld(key);
+  items.unshift({id:Date.now(),word,fr,unit,lvl,meaning,ex,subj});
+  sv(key,items);
+  ['word','fr','meaning','ex'].forEach(f=>{ const el=document.getElementById(prefix+'-'+f); if(el) el.value=''; });
+  logAct('term',word,subj);
+  renderTerms(subj); updateAll(); toast('✅ تم حفظ المصطلح','ok');
+}
+
+function addDef(prefix,key,subj){
+  const concept = document.getElementById(prefix+'-concept')?.value.trim();
+  const unit    = document.getElementById(prefix+'-unit')?.value;
+  const def     = document.getElementById(prefix+'-def')?.value.trim();
+  const ex      = document.getElementById(prefix+'-ex')?.value.trim();
+  const keys    = document.getElementById(prefix+'-keys')?.value.trim();
+  if(!concept||!def){ toast('يرجى إدخال المفهوم والتعريف','err'); return; }
+  const items=ld(key);
+  items.unshift({id:Date.now(),concept,unit,def,ex,keys,subj});
+  sv(key,items);
+  ['concept','def','ex','keys'].forEach(f=>{ const el=document.getElementById(prefix+'-'+f); if(el) el.value=''; });
+  logAct('def',concept,subj);
+  renderDefs(subj); updateAll(); toast('✅ تم حفظ التعريف','ok');
+}
+
+// ══ DELETE FUNCTIONS ══
+function delItem(k,id,render){
+  sv(k, ld(k).filter(i=>i.id!==id));
+  render(); updateAll(); toast('🗑️ تم الحذف');
+}
+
+// ══ RENDER FUNCTIONS ══
+function filterItems(items, q, unit){
+  return items
+    .filter(i=>!q || JSON.stringify(i).toLowerCase().includes(q))
+    .filter(i=>unit==='all' || i.unit===unit);
+}
+
+function setGrid(gridId,emptyId,cntId,titleId,html,count){
+  const g=document.getElementById(gridId);
+  const e=document.getElementById(emptyId);
+  if(cntId) document.getElementById(cntId).textContent=count;
+  if(!html){ g.innerHTML=''; e.style.display='block'; return; }
+  e.style.display='none'; g.innerHTML=html;
+}
+
+function renderDates(subj){
+  const isH = subj==='hist';
+  const key  = isH?'hd':'gd';
+  const q    = document.getElementById(key+'-s')?.value.trim().toLowerCase()||'';
+  const unit = document.getElementById(key+'-u')?.value||'all';
+  const items = filterItems(ld(isH?'hd':'gd'), q, unit);
+
+  const html = items.length ? items.map((it,i)=>`
+    <article class="ic ic-date" style="animation-delay:${i*.04}s">
+      <div class="ic-head">
+        <span class="ic-badge date">📅 ${esc(it.year)}</span>
+      </div>
+      <div class="ic-title">${esc(it.event)}</div>
+      ${it.desc?`<p class="ic-body">${esc(it.desc)}</p>`:''}
+      <div class="ic-foot">
+        <div class="ic-tags">
+          <span class="tag unit-tag">${esc(it.unit)}</span>
+          ${it.source?`<span class="tag">📚 ${esc(it.source)}</span>`:''}
+        </div>
+        <button class="btn-del" onclick="delItem('${isH?'hd':'gd'}',${it.id},()=>renderDates('${subj}'))">🗑 حذف</button>
+      </div>
+    </article>`).join('') : '';
+
+  setGrid(key+'-grid',key+'-empty',key+'-cnt',key+'-title',html,items.length);
+}
+
+function renderPersons(subj){
+  const isH = subj==='hist';
+  const key  = isH?'hp':'gp';
+  const q    = document.getElementById(key+'-s')?.value.trim().toLowerCase()||'';
+  const unit = document.getElementById(key+'-u')?.value||'all';
+  const items = filterItems(ld(isH?'hp':'gp'), q, unit);
+
+  const html = items.length ? items.map((it,i)=>`
+    <article class="ic ic-person" style="animation-delay:${i*.04}s">
+      <div class="ic-head">
+        <div class="p-avatar">👤</div>
+        <div>
+          <div class="ic-title" style="color:var(--hist2);margin-bottom:2px">${esc(it.name)}</div>
+          ${it.era?`<div style="font-size:.78rem;color:var(--text3)">⏳ ${esc(it.era)}</div>`:''}
+        </div>
+      </div>
+      <p class="ic-body">${esc(it.role)}</p>
+      ${it.works?`<p class="ic-body" style="color:var(--b300);font-size:.78rem">📚 ${esc(it.works)}</p>`:''}
+      <div class="ic-foot">
+        <div class="ic-tags">
+          <span class="tag unit-tag">${esc(it.unit)}</span>
+          ${it.nat?`<span class="tag">${esc(it.nat)}</span>`:''}
+        </div>
+        <button class="btn-del" onclick="delItem('${isH?'hp':'gp'}',${it.id},()=>renderPersons('${subj}'))">🗑 حذف</button>
+      </div>
+    </article>`).join('') : '';
+
+  setGrid(key+'-grid',key+'-empty',key+'-cnt',key+'-title',html,items.length);
+}
+
+function renderTerms(subj){
+  const isH = subj==='hist';
+  const key  = isH?'ht':'gt';
+  const q    = document.getElementById(key+'-s')?.value.trim().toLowerCase()||'';
+  const unit = document.getElementById(key+'-u')?.value||'all';
+  const items = filterItems(ld(isH?'ht':'gt'), q, unit);
+  const lvlCls={'أساسي':'lvl-basic','متوسط':'lvl-mid','متقدم':'lvl-adv'};
+
+  const html = items.length ? items.map((it,i)=>`
+    <article class="ic ic-term" style="animation-delay:${i*.04}s">
+      <div class="ic-head">
+        <span class="ic-badge term">📖 ${esc(it.word)}</span>
+      </div>
+      ${it.fr?`<div style="font-size:.75rem;color:var(--cyan2);margin-bottom:6px;direction:ltr;text-align:left">${esc(it.fr)}</div>`:''}
+      <p class="ic-body">${esc(it.meaning)}</p>
+      ${it.ex?`<div class="ic-example">${esc(it.ex)}</div>`:''}
+      <div class="ic-foot">
+        <div class="ic-tags">
+          <span class="tag unit-tag">${esc(it.unit)}</span>
+          <span class="tag ${lvlCls[it.lvl]||''}">${esc(it.lvl)}</span>
+        </div>
+        <button class="btn-del" onclick="delItem('${isH?'ht':'gt'}',${it.id},()=>renderTerms('${subj}'))">🗑 حذف</button>
+      </div>
+    </article>`).join('') : '';
+
+  setGrid(key+'-grid',key+'-empty',key+'-cnt',key+'-title',html,items.length);
+}
+
+function renderDefs(subj){
+  const isH = subj==='hist';
+  const key  = isH?'hdf':'gdf';
+  const q    = document.getElementById(key+'-s')?.value.trim().toLowerCase()||'';
+  const unit = document.getElementById(key+'-u')?.value||'all';
+  const items = filterItems(ld(isH?'hdf':'gdf'), q, unit);
+
+  const html = items.length ? items.map((it,i)=>`
+    <article class="ic ic-def" style="animation-delay:${i*.04}s">
+      <div class="ic-head">
+        <span class="ic-badge def">📝 ${esc(it.concept)}</span>
+      </div>
+      <p class="ic-body">${esc(it.def)}</p>
+      ${it.ex?`<div class="ic-example">📌 ${esc(it.ex)}</div>`:''}
+      ${it.keys?`<div class="ic-tags" style="margin-top:8px">${it.keys.split(',').map(k=>`<span class="tag" style="border-color:#7c3aed33;color:var(--violet)">${esc(k.trim())}</span>`).join('')}</div>`:''}
+      <div class="ic-foot">
+        <div class="ic-tags">
+          <span class="tag unit-tag">${esc(it.unit)}</span>
+        </div>
+        <button class="btn-del" onclick="delItem('${isH?'hdf':'gdf'}',${it.id},()=>renderDefs('${subj}'))">🗑 حذف</button>
+      </div>
+    </article>`).join('') : '';
+
+  setGrid(key+'-grid',key+'-empty',key+'-cnt',key+'-title',html,items.length);
+}
+
+// ══ DASHBOARD ══
+function renderDash(){
+  const counts = {
+    hd:ld('hd').length, hp:ld('hp').length, ht:ld('ht').length, hdf:ld('hdf').length,
+    gd:ld('gd').length, gp:ld('gp').length, gt:ld('gt').length, gdf:ld('gdf').length,
+  };
+  const totalHist = counts.hd+counts.hp+counts.ht+counts.hdf;
+  const totalGeo  = counts.gd+counts.gp+counts.gt+counts.gdf;
+  const total     = totalHist+totalGeo;
+  const qs        = getQS();
+
+  document.getElementById('kpi-hd').textContent   = counts.hd;
+  document.getElementById('kpi-hp').textContent   = counts.hp;
+  document.getElementById('kpi-gd').textContent   = counts.gd;
+  document.getElementById('kpi-qs').textContent   = qs.total;
+  document.getElementById('kpi-terms').textContent= counts.ht+counts.gt;
+
+  // Progress bars
+  const units = [
+    {l:'الثورة الجزائرية',c:'#f59e0b'},
+    {l:'الحركة الوطنية',c:'#f97316'},
+    {l:'الجغرافيا السكانية',c:'#10b981'},
+    {l:'الجغرافيا الاقتصادية',c:'#06b6d4'},
+    {l:'الاستعمار',c:'#8b5cf6'},
+    {l:'الجغرافيا الطبيعية',c:'#3b82f6'},
+  ];
+  const allItems = ['hd','hp','ht','hdf','gd','gp','gt','gdf'].flatMap(k=>ld(k).map(i=>i.unit));
+  const T = allItems.length||1;
+
+  document.getElementById('prog-bars').innerHTML = units.map(u=>{
+    const n = allItems.filter(x=>x===u.l).length;
+    const p = Math.round(n/T*100);
+    return `<div class="prog-item">
+      <div class="prog-label"><span>${u.l}</span><span>${n}</span></div>
+      <div class="prog-track"><div class="prog-fill" style="width:${p}%;background:${u.c}"></div></div>
+    </div>`;
+  }).join('');
+
+  // Activity
+  const act  = getAct();
+  const icons= {date:'📅',person:'👤',term:'📖',def:'📝'};
+  const colors= {date:'var(--b300)',person:'var(--hist2)',term:'var(--geo2)',def:'var(--violet)'};
+  const subjLabel = {hist:'تاريخ',geo:'جغرافيا'};
+
+  document.getElementById('activity').innerHTML = act.length
+    ? act.slice(0,8).map(a=>`
+        <div class="act-item">
+          <div class="act-dot" style="background:${colors[a.type]||'var(--text3)'}"></div>
+          <div class="act-text">${esc(a.name)}</div>
+          <div class="act-meta">
+            <span class="act-type">${icons[a.type]||''} ${subjLabel[a.subj]||''}</span>
+            <span class="act-time">${ago(a.t)}</span>
+          </div>
+        </div>`).join('')
+    : '<p style="color:var(--text3);font-size:.85rem;text-align:center;padding:20px 0">لا توجد إضافات بعد</p>';
+}
+
+function updateAll(){
+  const c = {
+    hd:ld('hd').length, hp:ld('hp').length, ht:ld('ht').length, hdf:ld('hdf').length,
+    gd:ld('gd').length, gp:ld('gp').length, gt:ld('gt').length, gdf:ld('gdf').length,
+  };
+  ['hd','hp','ht','hdf','gd','gp','gt','gdf'].forEach(k=>{
+    const el=document.getElementById('nc-'+k);
+    if(el) el.textContent=c[k];
+  });
+  const hist = c.hd+c.hp+c.ht+c.hdf;
+  const geo  = c.gd+c.gp+c.gt+c.gdf;
+  document.getElementById('ss-total').textContent = hist+geo;
+  document.getElementById('ss-hist').textContent  = hist;
+  document.getElementById('ss-geo').textContent   = geo;
+}
+
+// ══════════════════════════════════════════
+//   QUIZ ENGINE
+// ══════════════════════════════════════════
+let QZ = { type:'mcq', pool:[], idx:0, c:0, w:0, total:0, answered:false,
+           matchSel:null, matchItems:[], matchDone:0, flashFlipped:false, flashItem:null,
+           tfCorrect:null, tfA:'', fillA:'' };
+
+function selQType(t,el){
+  QZ.type=t;
+  document.querySelectorAll('.qtype-card').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+}
+
+// Build pool from all stores
+function buildPool(filter){
+  const all = {
+    hd: ld('hd').map(d=>({q:`ما الحدث الذي وقع في: ${d.year}؟`,a:d.event,hint:d.desc||'',unit:d.unit,type:'date',subj:'hist'})),
+    hp: ld('hp').map(p=>({q:`ما دور الشخصية "${p.name}"؟`,a:p.role,hint:p.works||'',unit:p.unit,type:'person',subj:'hist'})),
+    ht: ld('ht').map(t=>({q:`ما معنى مصطلح "${t.word}"؟`,a:t.meaning,hint:t.ex||'',unit:t.unit,type:'term',subj:'hist'})),
+    hdf:ld('hdf').map(d=>({q:`عرّف: "${d.concept}"`,a:d.def,hint:d.ex||'',unit:d.unit,type:'def',subj:'hist'})),
+    gd: ld('gd').map(d=>({q:`ما الحدث الذي وقع في: ${d.year}؟`,a:d.event,hint:d.desc||'',unit:d.unit,type:'date',subj:'geo'})),
+    gp: ld('gp').map(p=>({q:`ما دور الشخصية "${p.name}"؟`,a:p.role,hint:p.works||'',unit:p.unit,type:'person',subj:'geo'})),
+    gt: ld('gt').map(t=>({q:`ما معنى مصطلح "${t.word}"؟`,a:t.meaning,hint:t.ex||'',unit:t.unit,type:'term',subj:'geo'})),
+    gdf:ld('gdf').map(d=>({q:`عرّف: "${d.concept}"`,a:d.def,hint:d.ex||'',unit:d.unit,type:'def',subj:'geo'})),
+  };
+  let pool=[];
+  if(filter==='all')     pool=[...all.hd,...all.hp,...all.ht,...all.hdf,...all.gd,...all.gp,...all.gt,...all.gdf];
+  else if(filter==='hist') pool=[...all.hd,...all.hp,...all.ht,...all.hdf];
+  else if(filter==='geo')  pool=[...all.gd,...all.gp,...all.gt,...all.gdf];
+  else if(filter==='dates')  pool=[...all.hd,...all.gd];
+  else if(filter==='persons') pool=[...all.hp,...all.gp];
+  else if(filter==='terms')   pool=[...all.ht,...all.gt];
+  else if(filter==='defs')    pool=[...all.hdf,...all.gdf];
+  return shuf(pool.filter(i=>i.a));
+}
+
+function startQuiz(){
+  const filter = document.getElementById('q-filter').value;
+  const maxQ   = parseInt(document.getElementById('q-count').value)||10;
+  const raw    = buildPool(filter);
+  if(raw.length<2){ toast('أضف على الأقل عنصرين للبدء!','err'); return; }
+  QZ.pool    = maxQ>0 ? raw.slice(0,maxQ) : raw;
+  QZ.idx=0; QZ.c=0; QZ.w=0;
+  QZ.total   = QZ.pool.length;
+  QZ.answered= false;
+  document.getElementById('qc').textContent='0';
+  document.getElementById('qw').textContent='0';
+  document.getElementById('quiz-area').style.display='block';
+  document.getElementById('quiz-result').style.display='none';
+  document.getElementById('qrestart').style.display='none';
+  document.getElementById('qnext').style.display='inline-block';
+  document.getElementById('qskip').style.display='inline-block';
+  showQ();
+}
+
+function showQ(){
+  if(QZ.idx>=QZ.total){ showResult(); return; }
+  QZ.answered=false;
+  const item = QZ.pool[QZ.idx];
+  const pct  = Math.round(QZ.idx/QZ.total*100);
+  document.getElementById('qpf').style.width=pct+'%';
+  document.getElementById('qnum').textContent=`${QZ.idx+1}/${QZ.total}`;
+  hideFb();
+  document.getElementById('qnext').disabled=true;
+
+  // Subject tag
+  const stag=document.getElementById('q-stag');
+  stag.textContent = item.subj==='hist'?'📜 تاريخ':'🌍 جغرافيا';
+  stag.className='q-subject-tag '+(item.subj==='hist'?'subj-badge hist':'subj-badge geo');
+
+  document.getElementById('q-text').textContent=item.q;
+
+  ['mcq-area','tf-area','fill-area','match-area','flash-area'].forEach(id=>document.getElementById(id).style.display='none');
+
+  if(QZ.type==='mcq')   showMCQ(item);
+  else if(QZ.type==='tf')    showTF(item);
+  else if(QZ.type==='fill')  showFill(item);
+  else if(QZ.type==='match') showMatch();
+  else if(QZ.type==='flash') showFlash(item);
+}
+
+// MCQ
+function showMCQ(item){
+  document.getElementById('mcq-area').style.display='block';
+  const wrongs = shuf(QZ.pool.map(i=>i.a).filter(a=>a!==item.a)).slice(0,3);
+  const opts   = shuf([item.a,...wrongs]);
+  const letters=['أ','ب','ج','د'];
+  document.getElementById('mcq-opts').innerHTML=opts.map((o,i)=>`
+    <button class="mcq-opt" onclick="ansMCQ(this,'${escA(o)}','${escA(item.a)}')" data-v="${escA(o)}">
+      <span class="opt-letter">${letters[i]}</span>
+      <span>${esc(o)}</span>
+    </button>`).join('');
+}
+
+function ansMCQ(btn,chosen,correct){
+  if(QZ.answered) return;
+  QZ.answered=true;
+  document.querySelectorAll('.mcq-opt').forEach(b=>{ b.disabled=true; if(b.dataset.v===correct) b.classList.add('correct'); });
+  const ok=chosen===correct;
+  if(!ok) btn.classList.add('wrong');
+  recAns(ok,correct);
+}
+
+// TF
+function showTF(item){
+  document.getElementById('tf-area').style.display='block';
+  const isTrue=Math.random()>.5;
+  let stmt,corr;
+  if(isTrue){ stmt=`${item.q.replace(/^(ما|عرّف:?)\s*/,'')} — "${item.a}"`; corr=true; }
+  else {
+    const other=QZ.pool.find(i=>i.a&&i.a!==item.a);
+    if(other){ stmt=`${item.q.replace(/^(ما|عرّف:?)\s*/,'')} — "${other.a}"`; corr=false; }
+    else { stmt=`${item.q.replace(/^(ما|عرّف:?)\s*/,'')} — "${item.a}"`; corr=true; }
+  }
+  document.getElementById('q-text').textContent=stmt;
+  document.querySelectorAll('.tf-btn').forEach(b=>{ b.disabled=false; b.className='tf-btn '+(b.classList.contains('t')?'t':'f'); });
+  QZ.tfCorrect=corr; QZ.tfA=item.a;
+}
+
+function ansTF(v){
+  if(QZ.answered) return;
+  QZ.answered=true;
+  document.querySelectorAll('.tf-btn').forEach(b=>b.disabled=true);
+  const ok=v===QZ.tfCorrect;
+  document.querySelector(QZ.tfCorrect?'.tf-btn.t':'.tf-btn.f').classList.add('correct');
+  if(!ok) document.querySelector(QZ.tfCorrect?'.tf-btn.f':'.tf-btn.t').classList.add('wrong');
+  recAns(ok,QZ.tfCorrect?'صحيح — '+QZ.tfA:'خطأ');
+}
+
+// Fill
+function showFill(item){
+  document.getElementById('fill-area').style.display='block';
+  const inp=document.getElementById('fill-in');
+  inp.value=''; inp.className='fill-input'; inp.disabled=false;
+  document.getElementById('fill-btn').disabled=false;
+  QZ.fillA=item.a;
+  inp.onkeydown=e=>{ if(e.key==='Enter') checkFill(); };
+  setTimeout(()=>inp.focus(),100);
+}
+
+function checkFill(){
+  if(QZ.answered) return;
+  const v=document.getElementById('fill-in').value.trim();
+  if(!v){ toast('اكتب إجابتك أولاً'); return; }
+  QZ.answered=true;
+  document.getElementById('fill-in').disabled=true;
+  document.getElementById('fill-btn').disabled=true;
+  const ok=v.length>2&&(QZ.fillA.includes(v.substring(0,4))||v.includes(QZ.fillA.substring(0,4)));
+  document.getElementById('fill-in').classList.add(ok?'ok':'bad');
+  recAns(ok,QZ.fillA);
+}
+
+// Match
+function showMatch(){
+  document.getElementById('match-area').style.display='block';
+  const slice=QZ.pool.slice(QZ.idx,QZ.idx+4).filter(i=>i.a);
+  if(slice.length<2){ nextQ(); return; }
+  QZ.matchItems=slice; QZ.matchSel=null; QZ.matchDone=0;
+  const rights=shuf(slice.map(i=>({id:i.unit+'_'+slice.indexOf(i),text:i.a,src:i})));
+  const lefts=slice.map((i,j)=>({id:i.unit+'_'+j,text:i.q.replace(/^(ما|عرّف:?)\s*/,''),src:i}));
+  document.getElementById('match-L').innerHTML=lefts.map(l=>`<div class="mi" data-id="${l.id}" data-side="L" onclick="selMatch(this,'L')">${esc(l.text)}</div>`).join('');
+  document.getElementById('match-R').innerHTML=rights.map(r=>`<div class="mi" data-id="${r.id}" data-side="R" onclick="selMatch(this,'R')">${esc(r.text)}</div>`).join('');
+  QZ.answered=false;
+  document.getElementById('qnext').disabled=false;
+}
+
+function selMatch(el,side){
+  if(el.classList.contains('match')) return;
+  if(!QZ.matchSel){ document.querySelectorAll('.mi.sel').forEach(e=>e.classList.remove('sel')); el.classList.add('sel'); QZ.matchSel={el,side}; return; }
+  if(QZ.matchSel.side===side){ el.classList.add('sel'); QZ.matchSel={el,side}; return; }
+  const L=side==='L'?el:QZ.matchSel.el, R=side==='R'?el:QZ.matchSel.el;
+  if(L.dataset.id===R.dataset.id){
+    L.classList.add('match'); R.classList.add('match'); L.classList.remove('sel'); R.classList.remove('sel');
+    QZ.matchDone++; saveQS(true);
+    if(QZ.matchDone>=QZ.matchItems.length) showFb(true,'🎉 أحسنت! ربطت جميع المصطلحات بشكل صحيح');
+  } else {
+    L.classList.add('bad'); R.classList.add('bad');
+    setTimeout(()=>{ L.classList.remove('bad','sel'); R.classList.remove('bad','sel'); },700);
+    saveQS(false);
+  }
+  QZ.matchSel=null;
+}
+
+// Flash
+function showFlash(item){
+  document.getElementById('flash-area').style.display='block';
+  QZ.flashFlipped=false; QZ.flashItem=item;
+  const card=document.getElementById('flash-card');
+  card.classList.remove('flipped');
+  document.getElementById('flash-front').textContent=item.q;
+  document.getElementById('flash-back').textContent=item.a;
+  document.getElementById('flash-back').style.display='none';
+  document.getElementById('flash-hint').style.display='block';
+  document.getElementById('flash-btns').style.display='none';
+}
+
+function flipFlash(){
+  if(QZ.flashFlipped) return;
+  QZ.flashFlipped=true;
+  document.getElementById('flash-card').classList.add('flipped');
+  document.getElementById('flash-back').style.display='block';
+  document.getElementById('flash-hint').style.display='none';
+  document.getElementById('flash-btns').style.display='grid';
+}
+
+function flashAns(knew){
+  if(!QZ.flashFlipped) return;
+  document.getElementById('flash-btns').style.display='none';
+  recAns(knew, QZ.flashItem.a);
+}
+
+// Record
+function recAns(ok,correctAns){
+  if(ok){ QZ.c++; document.getElementById('qc').textContent=QZ.c; }
+  else  { QZ.w++; document.getElementById('qw').textContent=QZ.w; }
+  saveQS(ok);
+  showFb(ok, ok?'✅ إجابة صحيحة!':'❌ الإجابة الصحيحة: '+correctAns);
+  document.getElementById('qnext').disabled=false;
+  QZ.answered=true;
+}
+
+function showFb(ok,msg){ const f=document.getElementById('q-fb'); f.textContent=msg; f.className='q-fb on '+(ok?'ok':'bad'); }
+function hideFb(){ document.getElementById('q-fb').className='q-fb'; }
+
+function nextQ(){
+  QZ.idx += QZ.type==='match' ? Math.min(4, QZ.matchItems?.length||1) : 1;
+  if(QZ.idx>=QZ.total){ showResult(); return; }
+  showQ();
+}
+
+function skipQ(){ QZ.idx++; if(QZ.idx>=QZ.total){ showResult(); return; } showQ(); }
+
+function showResult(){
+  document.getElementById('quiz-area').style.display='none';
+  document.getElementById('quiz-result').style.display='block';
+  const total=QZ.c+QZ.w;
+  const pct=total>0?Math.round(QZ.c/total*100):0;
+  document.getElementById('rc').textContent=QZ.c;
+  document.getElementById('rw').textContent=QZ.w;
+  document.getElementById('rp').textContent=pct;
+  document.getElementById('rs').textContent=pct+'%';
+  document.getElementById('rs').style.color=pct>=80?'var(--success)':pct>=50?'var(--warn)':'var(--danger)';
+  let emoji,msg;
+  if(pct>=90){emoji='🏆';msg='ممتاز! أداء استثنائي';}
+  else if(pct>=70){emoji='🎉';msg='جيد جداً! استمر في المراجعة';}
+  else if(pct>=50){emoji='📚';msg='جيد، راجع المحتوى مرة أخرى';}
+  else{emoji='💪';msg='لا تستسلم! راجع وأعد الاختبار';}
+  document.getElementById('re').textContent=emoji;
+  document.getElementById('rm').textContent=msg;
+  updateAll();
+}
+
+// ══ INIT ══
+renderDash();
+updateAll();
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
